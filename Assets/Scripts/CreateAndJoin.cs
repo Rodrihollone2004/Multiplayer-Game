@@ -11,6 +11,10 @@ public class CreateAndJoin : MonoBehaviourPunCallbacks
     [SerializeField] TMP_InputField input_Create;
     [SerializeField] TMP_InputField input_Join;
 
+    [Header("Error UI")]
+    [SerializeField] GameObject errorPanel;
+    [SerializeField] TMP_Text errorMessageText;
+
     public void CreateRoom()
     {
         PhotonNetwork.CreateRoom(input_Create.text);
@@ -29,5 +33,21 @@ public class CreateAndJoin : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         PhotonNetwork.LoadLevel("Game");
+    }
+
+    public override void OnJoinRoomFailed(short returnCode, string message)
+    {
+        ShowError(message);
+    }
+
+    void ShowError(string message)
+    {
+        errorMessageText.text = message;
+        errorPanel.SetActive(true);
+    }
+
+    public void HideError()
+    {
+        errorPanel.SetActive(false);
     }
 }

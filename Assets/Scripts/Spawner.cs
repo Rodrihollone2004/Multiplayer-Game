@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class Spowner : MonoBehaviour
+public class Spawner : MonoBehaviour
 {
     void Start()
     {
