@@ -1,9 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using Photon.Pun;
-using Photon.Realtime;
 using TMPro;
 
 public class CreateAndJoin : MonoBehaviourPunCallbacks
@@ -33,6 +29,11 @@ public class CreateAndJoin : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         PhotonNetwork.LoadLevel("Game");
+    }
+
+    public override void OnCreateRoomFailed(short returnCode, string message)
+    {
+        ShowError(message);
     }
 
     public override void OnJoinRoomFailed(short returnCode, string message)

@@ -421,6 +421,7 @@ GameObject:
   - component: {fileID: -2089938479943961079}
   - component: {fileID: -2038457187952761387}
   - component: {fileID: 3878733997628536130}
+  - component: {fileID: 796256165946832291}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -544,6 +545,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 6856208971885145046}
   - {fileID: 3878733997628536130}
+  - {fileID: 0}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -595,8 +597,6 @@ MonoBehaviour:
   moveSpeed: 5
   rb: {fileID: -2038457187952761387}
   mark: {fileID: 4811963927406526338}
-  canvasName: {fileID: 1384052337705069014}
-  Name: {fileID: 1803368440}
 --- !u!50 &-2038457187952761387
 Rigidbody2D:
   serializedVersion: 4
@@ -634,3 +634,17 @@ MonoBehaviour:
   m_SynchronizeAngularVelocity: 0
   m_TeleportEnabled: 0
   m_TeleportIfDistanceGreaterThan: 3
+--- !u!114 &796256165946832291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8995399140137852937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fab874e2164efba4a805c532fe0ed479, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasName: {fileID: 1384052337705069014}
+  nameText: {fileID: 1803368440}

@@ -1,7 +1,5 @@
 using UnityEngine;
 using Photon.Pun;
-using TMPro;
-
 
 public class PlayerMovement : MonoBehaviourPunCallbacks
 {
@@ -9,18 +7,6 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     [SerializeField] Rigidbody2D rb;
     Vector2 moveDirection;
     public GameObject mark;
-    public GameObject canvasName;
-    public TMP_Text Name;
-
-
-    void Start()
-    {
-        if(GetComponent<PhotonView>().IsMine == false)
-        {
-            canvasName.SetActive(true);
-            Name.text = GetComponent<PhotonView>().Controller.NickName;
-        }
-    }
 
     void Update()
     {

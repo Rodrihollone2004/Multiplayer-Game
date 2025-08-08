@@ -1,6 +1,4 @@
 using Photon.Pun;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -15,12 +13,6 @@ public class Username : MonoBehaviour
         if (PlayerPrefs.GetString("Username") == "" || PlayerPrefs.GetString("Username") == null)
         {
             usernamePage.SetActive(true);
-        }
-        else
-        {
-            PhotonNetwork.NickName = PlayerPrefs.GetString("Username");
-            myUsername.text = PlayerPrefs.GetString("Username");
-            usernamePage.SetActive(false);
         }
     }
 
