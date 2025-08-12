@@ -418,10 +418,11 @@ GameObject:
   - component: {fileID: 1224815097747572809}
   - component: {fileID: 8718871514707150898}
   - component: {fileID: 6856208971885145046}
-  - component: {fileID: -2089938479943961079}
-  - component: {fileID: -2038457187952761387}
   - component: {fileID: 3878733997628536130}
+  - component: {fileID: -2038457187952761387}
+  - component: {fileID: -2089938479943961079}
   - component: {fileID: 796256165946832291}
+  - component: {fileID: 8684086645639945196}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -545,7 +546,6 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 6856208971885145046}
   - {fileID: 3878733997628536130}
-  - {fileID: 0}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -582,7 +582,7 @@ MonoBehaviour:
     InterpolateOption: 0
     InterpolateMoveTowardsSpeed: 1
     InterpolateLerpSpeed: 0
---- !u!114 &-2089938479943961079
+--- !u!114 &3878733997628536130
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -591,12 +591,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 8995399140137852937}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf06d6c090b07be469beeb95d0619d1d, type: 3}
+  m_Script: {fileID: 11500000, guid: 0e7cb724808c322458aa4d15f5035fa9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
-  rb: {fileID: -2038457187952761387}
-  mark: {fileID: 4811963927406526338}
+  m_SynchronizeVelocity: 1
+  m_SynchronizeAngularVelocity: 0
+  m_TeleportEnabled: 0
+  m_TeleportIfDistanceGreaterThan: 3
 --- !u!50 &-2038457187952761387
 Rigidbody2D:
   serializedVersion: 4
@@ -618,7 +619,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &3878733997628536130
+--- !u!114 &-2089938479943961079
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -627,13 +628,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 8995399140137852937}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e7cb724808c322458aa4d15f5035fa9, type: 3}
+  m_Script: {fileID: 11500000, guid: bf06d6c090b07be469beeb95d0619d1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SynchronizeVelocity: 1
-  m_SynchronizeAngularVelocity: 0
-  m_TeleportEnabled: 0
-  m_TeleportIfDistanceGreaterThan: 3
+  moveSpeed: 5
+  rb: {fileID: -2038457187952761387}
+  mark: {fileID: 4811963927406526338}
 --- !u!114 &796256165946832291
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -648,3 +648,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvasName: {fileID: 1384052337705069014}
   nameText: {fileID: 1803368440}
+--- !u!114 &8684086645639945196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8995399140137852937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93690c626087d5648966f4193faa75cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  messageText: {fileID: 0}

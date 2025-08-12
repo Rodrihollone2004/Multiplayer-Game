@@ -7,11 +7,12 @@ public class RoomList : MonoBehaviourPunCallbacks
 {
     [SerializeField] GameObject roomPrefab;
     [SerializeField] GameObject[] allRooms;
+
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         for (int i = 0; i < allRooms.Length; i++)
         {
-            if(allRooms[i] != null)
+            if (allRooms[i] != null)
             {
                 Destroy(allRooms[i]);
             }
@@ -19,14 +20,14 @@ public class RoomList : MonoBehaviourPunCallbacks
 
         allRooms = new GameObject[roomList.Count];
 
-        for (int i = 0;  i < roomList.Count; i++)
-        {        
-            if(roomList[i].IsOpen && roomList[i].IsVisible && roomList[i].PlayerCount >= 1)
+        for (int i = 0; i < roomList.Count; i++)
+        {
+            if (roomList[i].IsOpen && roomList[i].IsVisible && roomList[i].PlayerCount >= 1)
             {
-            GameObject Room = Instantiate(roomPrefab, Vector3.zero, Quaternion.identity, GameObject.Find("Content").transform);
-            Room.GetComponent<Room>().Name.text = roomList[i].Name;
+                GameObject Room = Instantiate(roomPrefab, Vector3.zero, Quaternion.identity, GameObject.Find("Content").transform);
+                Room.GetComponent<Room>().Name.text = roomList[i].Name;
 
-            allRooms[i] = Room;
+                allRooms[i] = Room;
             }
         }
     }

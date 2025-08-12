@@ -12,7 +12,7 @@ public class PlayerNameDisplay : MonoBehaviourPunCallbacks
         if (!photonView.IsMine)
         {
             canvasName.SetActive(true);
-            nameText.text = photonView.Controller.NickName;
+            nameText.text = photonView.Controller.NickName.ToUpper();
         }
     }
 }

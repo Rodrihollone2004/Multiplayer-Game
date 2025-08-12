@@ -13,12 +13,28 @@ public class CreateAndJoin : MonoBehaviourPunCallbacks
 
     public void CreateRoom()
     {
-        PhotonNetwork.CreateRoom(input_Create.text);
+        string roomName = input_Create.text.Trim();
+
+        if (string.IsNullOrEmpty(roomName))
+        {
+            ShowError("The room name cannot be empty.");
+            return;
+        }
+
+        PhotonNetwork.CreateRoom(roomName);
     }
 
     public void JoinRoom()
     {
-        PhotonNetwork.JoinRoom(input_Join.text);
+        string roomName = input_Join.text.Trim();
+
+        if (string.IsNullOrEmpty(roomName))
+        {
+            ShowError("The room name cannot be empty.");
+            return;
+        }
+
+        PhotonNetwork.JoinRoom(roomName);
     }
 
     public void JoinRoomInList(string RoomName)

@@ -179,6 +179,8 @@ MonoBehaviour:
   inputField: {fileID: 1336256229}
   usernamePage: {fileID: 11021816}
   myUsername: {fileID: 1478109526}
+  errorMessage: {fileID: 1693545616}
+  errorPanel: {fileID: 1888041025}
 --- !u!1 &13555686
 GameObject:
   m_ObjectHideFlags: 0
@@ -3723,7 +3725,7 @@ GameObject:
   - component: {fileID: 1888041026}
   - component: {fileID: 1888041027}
   m_Layer: 5
-  m_Name: UsernamePage (1)
+  m_Name: ErrorPage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3768,6 +3770,8 @@ MonoBehaviour:
   inputField: {fileID: 0}
   usernamePage: {fileID: 1888041025}
   myUsername: {fileID: 1478109526}
+  errorMessage: {fileID: 0}
+  errorPanel: {fileID: 0}
 --- !u!1 &1988192495
 GameObject:
   m_ObjectHideFlags: 0

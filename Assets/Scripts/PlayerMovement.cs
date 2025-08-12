@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
         if (photonView.IsMine)
             ProcessInputs();
     }
+
     private void FixedUpdate()
     {
         if (photonView.IsMine)
@@ -26,6 +27,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
 
         moveDirection = new Vector2(moveX, moveY).normalized;
     }
+
     void Move()
     {
         if (moveDirection != Vector2.zero)
