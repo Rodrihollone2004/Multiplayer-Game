@@ -1,8 +1,9 @@
 ﻿using Photon.Pun;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
-public class PlayerCollision : MonoBehaviourPunCallbacks
+public class BallCollision : MonoBehaviourPunCallbacks
 {
     private TMP_Text messageText;
 
@@ -25,8 +26,15 @@ public class PlayerCollision : MonoBehaviourPunCallbacks
     [PunRPC]
     void NotifyCollision(string player1, string player2)
     {
-        if (player1 == PhotonNetwork.NickName || player2 == PhotonNetwork.NickName) return;
+        // if (player1 == PhotonNetwork.NickName || player2 == PhotonNetwork.NickName) return;
 
-        messageText.text = $"{player1} colisiono con {player2}";
+        messageText.text = $"{player1} quemo a {player2}";
+
+        StartCoroutine(DesactivateText());
+    }
+
+    private IEnumerator DesactivateText()
+    {
+        yield return new WaitForSeconds(5f);
     }
 }

@@ -21,6 +21,7 @@ public class CreateAndJoin : MonoBehaviourPunCallbacks
             return;
         }
 
+        //PhotonNetwork.IsMasterClient;
         PhotonNetwork.CreateRoom(roomName);
     }
 
@@ -44,7 +45,7 @@ public class CreateAndJoin : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        PhotonNetwork.LoadLevel("Game");
+        PhotonNetwork.LoadLevel("Lobby");
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)
