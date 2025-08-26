@@ -1,6 +1,7 @@
 using UnityEngine;
 using Photon.Pun;
 using TMPro;
+using Photon.Realtime;
 
 public class CreateAndJoin : MonoBehaviourPunCallbacks
 {
@@ -21,7 +22,15 @@ public class CreateAndJoin : MonoBehaviourPunCallbacks
             return;
         }
 
-        //PhotonNetwork.IsMasterClient;
+        RoomOptions roomOptions = new RoomOptions();
+        roomOptions.MaxPlayers = 4;
+        roomOptions.IsVisible = true;
+        roomOptions.IsOpen = true;
+        roomOptions.EmptyRoomTtl = 100;
+        roomOptions.PlayerTtl = 100000;
+        roomOptions.BroadcastPropsChangeToAll = true;
+
+
         PhotonNetwork.CreateRoom(roomName);
     }
 
@@ -34,7 +43,6 @@ public class CreateAndJoin : MonoBehaviourPunCallbacks
             ShowError("The room name cannot be empty.");
             return;
         }
-
         PhotonNetwork.JoinRoom(roomName);
     }
 

@@ -15,6 +15,8 @@ public class MasterManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+
+        PhotonNetwork.AutomaticallySyncScene = true;
     }
 
     private void Update()
@@ -37,5 +39,10 @@ public class MasterManager : MonoBehaviour
 
         if (!value)
             configPanel.SetActive(false);
+    }
+
+    public void Quemado()
+    {
+        PhotonNetwork.LoadLevel("Quemado");
     }
 }

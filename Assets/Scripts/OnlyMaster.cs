@@ -13,6 +13,7 @@ public class OnlyMaster : MonoBehaviourPunCallbacks
         }
     }
 
+
     private void OnTriggerExit2D(Collider2D other)
     {
         if (!photonView.IsMine) return;
