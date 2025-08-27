@@ -15,9 +15,10 @@ GameObject:
   - component: {fileID: 3909972095729044253}
   - component: {fileID: -3733451926747228127}
   - component: {fileID: 4539615282457860164}
+  - component: {fileID: -1939122899872108743}
   m_Layer: 0
   m_Name: Ball
-  m_TagString: Untagged
+  m_TagString: Ball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -98,7 +99,7 @@ CircleCollider2D:
   m_GameObject: {fileID: 6452355138791977720}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: d4e3390030cadca4981f2f15802a5d08, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -177,3 +178,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93690c626087d5648966f4193faa75cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-1939122899872108743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6452355138791977720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 501f27945cb22e6438113ae87c3a128a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  throwSpeed: 12

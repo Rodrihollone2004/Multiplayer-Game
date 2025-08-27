@@ -44,6 +44,9 @@ MonoBehaviour:
   - NotifyCollision
   - ForceRoomListRefresh
   - Quemado
+  - RPC_Eliminate
+  - RPC_PickUp
+  - RPC_Throw
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
