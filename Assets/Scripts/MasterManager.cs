@@ -2,7 +2,7 @@ using Photon.Pun;
 using UnityEngine;
 using TMPro;
 
-public class MasterManager : MonoBehaviour
+public class MasterManager : MonoBehaviourPunCallbacks
 {
     public static MasterManager Instance;
 
@@ -15,8 +15,6 @@ public class MasterManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-
-        PhotonNetwork.AutomaticallySyncScene = true;
     }
 
     private void Update()
@@ -43,6 +41,13 @@ public class MasterManager : MonoBehaviour
 
     public void Quemado()
     {
+        photonView.RPC("RPC_Quemado", RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
+     void RPC_Quemado()
+    {
         PhotonNetwork.LoadLevel("Quemado");
     }
+
 }

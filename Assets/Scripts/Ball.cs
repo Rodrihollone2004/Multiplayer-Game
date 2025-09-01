@@ -1,9 +1,8 @@
 using Photon.Pun;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-public class Ball : MonoBehaviourPun
+public class Ball : MonoBehaviourPunCallbacks
 {
     [SerializeField] float throwSpeed = 12f;
     Rigidbody2D rb;
@@ -32,9 +31,10 @@ public class Ball : MonoBehaviourPun
 
         Physics2D.IgnoreCollision(GetComponent<Collider2D>(), playerObj.GetComponent<Collider2D>(), true);
     }
+
     public void Throw(Vector2 dir, int playerViewID)
     {
-        photonView.RPC("RPC_Throw", RpcTarget.AllBuffered, dir.x, dir.y, playerViewID);
+        photonView.RPC("RPC_Throw", RpcTarget.All, dir.x, dir.y, playerViewID);
     }
 
     [PunRPC]
