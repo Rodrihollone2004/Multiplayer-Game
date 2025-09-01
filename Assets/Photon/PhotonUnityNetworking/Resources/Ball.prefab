@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 8382972826409925754}
   - component: {fileID: 3909972095729044253}
   - component: {fileID: -3733451926747228127}
-  - component: {fileID: 4539615282457860164}
   - component: {fileID: -1939122899872108743}
   m_Layer: 0
   m_Name: Ball
@@ -166,18 +165,6 @@ MonoBehaviour:
   m_SynchronizeAngularVelocity: 0
   m_TeleportEnabled: 0
   m_TeleportIfDistanceGreaterThan: 3
---- !u!114 &4539615282457860164
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6452355138791977720}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93690c626087d5648966f4193faa75cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &-1939122899872108743
 MonoBehaviour:
   m_ObjectHideFlags: 0
