@@ -214,21 +214,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99e73e7414a5ff14191db8438263ca34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefabs:
-  - {fileID: 8995399140137852937, guid: afc289953d93cc540a5bdb6facf29389, type: 3}
-  - {fileID: 8995399140137852937, guid: afc289953d93cc540a5bdb6facf29389, type: 3}
-  - {fileID: 8995399140137852937, guid: afc289953d93cc540a5bdb6facf29389, type: 3}
-  - {fileID: 8995399140137852937, guid: afc289953d93cc540a5bdb6facf29389, type: 3}
   playerSpawns:
-  - {fileID: 1040220520}
-  - {fileID: 1244990902}
-  - {fileID: 191537143}
-  - {fileID: 1629023819}
+  - {fileID: 1040220519}
+  - {fileID: 1244990901}
+  - {fileID: 191537142}
+  - {fileID: 1629023818}
   ballSpawns:
-  - {fileID: 1247065771}
-  - {fileID: 1782278744}
-  - {fileID: 363384464}
-  - {fileID: 2059723402}
+  - {fileID: 1247065770}
+  - {fileID: 1782278743}
+  - {fileID: 363384463}
+  - {fileID: 2059723401}
 --- !u!4 &400147909
 Transform:
   m_ObjectHideFlags: 0
