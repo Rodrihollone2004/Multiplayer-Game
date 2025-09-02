@@ -45,7 +45,7 @@ public class MasterManager : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-     void RPC_Quemado()
+    void RPC_Quemado()
     {
         PhotonNetwork.LoadLevel("Quemado");
     }

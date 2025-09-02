@@ -47,9 +47,4 @@ public class RoomList : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.JoinLobby();
     }
-
-    //public override void OnRoomListUpdate(List<RoomInfo> roomList)
-    //{
-        
-    //}
 }

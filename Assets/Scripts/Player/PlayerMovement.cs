@@ -1,6 +1,5 @@
 using UnityEngine;
 using Photon.Pun;
-using System.Collections;
 
 public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
 {
@@ -37,6 +36,8 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
             HandleAnimations();
         }
 
+        UpdateHoldPointPosition();
+
         if (heldBall != null && Input.GetKeyDown(KeyCode.Space))
         {
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -44,16 +45,8 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
 
             heldBall.Throw(dir, photonView.ViewID);
 
-            //StartCoroutine(EnableCollisionAfterThrow(heldBall.GetComponent<Collider2D>(), GetComponent<Collider2D>()));
-
             heldBall = null;
         }
-    }
-
-    private IEnumerator EnableCollisionAfterThrow(Collider2D ballCol, Collider2D playerCol)
-    {
-        yield return new WaitForSeconds(0.2f);
-        Physics2D.IgnoreCollision(ballCol, playerCol, false);
     }
 
     private void FixedUpdate()
@@ -85,10 +78,18 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
     {
         anim.SetFloat("Speed", rb.velocity.magnitude);
 
-        if(lastHorizontalDir.x < 0)
+        if (lastHorizontalDir.x < 0)
             sr.flipX = true;
-        else if(lastHorizontalDir.x > 0)
+        else if (lastHorizontalDir.x > 0)
             sr.flipX = false;
+    }
+
+    void UpdateHoldPointPosition()
+    {
+        if (sr.flipX)
+            holdPoint.localPosition = new Vector3(-Mathf.Abs(holdPoint.localPosition.x), holdPoint.localPosition.y, holdPoint.localPosition.z);
+        else
+            holdPoint.localPosition = new Vector3(Mathf.Abs(holdPoint.localPosition.x), holdPoint.localPosition.y, holdPoint.localPosition.z);
     }
     public void PickUpBall(Ball ball)
     {
