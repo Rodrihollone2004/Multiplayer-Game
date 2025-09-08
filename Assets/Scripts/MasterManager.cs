@@ -47,6 +47,9 @@ public class MasterManager : MonoBehaviourPunCallbacks
     [PunRPC]
     void RPC_Quemado()
     {
+        if (LobbySpawner.Instance != null)
+            LobbySpawner.Instance.ClearSpawnedPlayers();
+
         PhotonNetwork.LoadLevel("Quemado");
     }
 
