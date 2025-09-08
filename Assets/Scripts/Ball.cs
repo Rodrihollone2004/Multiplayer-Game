@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Ball : MonoBehaviourPunCallbacks
 {
-    [SerializeField] float throwSpeed = 12f;
     Rigidbody2D rb;
 
     void Awake()
@@ -32,13 +31,13 @@ public class Ball : MonoBehaviourPunCallbacks
         Physics2D.IgnoreCollision(GetComponent<Collider2D>(), playerObj.GetComponent<Collider2D>(), true);
     }
 
-    public void Throw(Vector2 dir, int playerViewID)
+    public void Throw(Vector2 dir, int playerViewID, float speed)
     {
-        photonView.RPC("RPC_Throw", RpcTarget.All, dir.x, dir.y, playerViewID);
+        photonView.RPC("RPC_Throw", RpcTarget.All, dir.x, dir.y, playerViewID, speed);
     }
 
     [PunRPC]
-    void RPC_Throw(float dirX, float dirY, int playerViewID)
+    void RPC_Throw(float dirX, float dirY, int playerViewID, float speed)
     {
         Vector2 dir = new Vector2(dirX, dirY);
 
@@ -50,7 +49,7 @@ public class Ball : MonoBehaviourPunCallbacks
 
         transform.SetParent(null);
         rb.isKinematic = false;
-        rb.velocity = dir * throwSpeed;
+        rb.velocity = dir * speed;
 
         StartCoroutine(ReenableCollision(ballCol, playerCol, 0.2f));
     }

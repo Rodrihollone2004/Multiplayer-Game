@@ -1,5 +1,7 @@
 using UnityEngine;
 using Photon.Pun;
+using System.Collections;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
 {
@@ -8,11 +10,30 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] Rigidbody2D rb;
     [SerializeField] Transform holdPoint;
 
+    [Space(20)]
+    [SerializeField] float dashForce = 15f;
+    [SerializeField] float dashDuration = 0.2f;
+    [SerializeField] float dashCooldown = 5f;
+    bool canDash = true;
+    bool isDashing = false;
+
     [Header("Visuals")]
     public GameObject mark;
     Animator anim;
     SpriteRenderer sr;
 
+    [Header("UI Dash Cooldown")]
+    [SerializeField] private Image dashCooldownFill;
+    float dashTimer = 0f;
+
+    [Header("Charged Throw")]
+    [SerializeField] private float minThrowSpeed = 12f;
+    [SerializeField] private float maxThrowSpeed = 25f;
+    [SerializeField] private float chargeTime = 1.5f;
+    [SerializeField] private Image chargeMeterFill;
+
+    private bool isCharging = false;
+    private float currentCharge = 0f;
 
     Vector2 moveDirection;
     Vector2 lastHorizontalDir = Vector2.right;
@@ -32,20 +53,53 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (photonView.IsMine)
         {
-            ProcessInputs();
-            HandleAnimations();
+            if (!isCharging) 
+            {
+                ProcessInputs();
+                HandleAnimations();
+
+                if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
+                    StartCoroutine(Dash());
+
+                UpdateDashUI();
+            }
         }
 
         UpdateHoldPointPosition();
 
-        if (heldBall != null && Input.GetKeyDown(KeyCode.Space))
+        if (heldBall != null)
         {
-            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 dir = (mousePos - (Vector2)transform.position).normalized;
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                isCharging = true;
+                currentCharge = 0f;
+                rb.velocity = Vector2.zero;
+            }
 
-            heldBall.Throw(dir, photonView.ViewID);
+            if (Input.GetKey(KeyCode.Space) && isCharging)
+            {
+                currentCharge += Time.deltaTime;
+                currentCharge = Mathf.Clamp(currentCharge, 0f, chargeTime);
 
-            heldBall = null;
+                if (chargeMeterFill != null)
+                    chargeMeterFill.fillAmount = currentCharge / chargeTime;
+            }
+
+            if (Input.GetKeyUp(KeyCode.Space) && isCharging)
+            {
+                Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                Vector2 dir = (mousePos - (Vector2)transform.position).normalized;
+
+                float throwSpeed = currentCharge > 0f ? Mathf.Lerp(minThrowSpeed, maxThrowSpeed, currentCharge / chargeTime) : minThrowSpeed;
+
+                heldBall.Throw(dir, photonView.ViewID, throwSpeed);
+                heldBall = null;
+
+                isCharging = false;
+
+                if (chargeMeterFill != null)
+                    chargeMeterFill.fillAmount = 0f;
+            }
         }
     }
 
@@ -62,12 +116,14 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
 
         moveDirection = new Vector2(moveX, moveY).normalized;
 
-        if(moveX != 0)
-            lastHorizontalDir = new Vector2 (moveX, 0);
+        if (moveX != 0)
+            lastHorizontalDir = new Vector2(moveX, 0);
     }
 
     void Move()
     {
+        if (isDashing || isCharging) return;
+
         if (moveDirection != Vector2.zero)
             rb.velocity = moveDirection * moveSpeed;
         else
@@ -122,10 +178,49 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
             stream.SendNext(sr.flipX);
             stream.SendNext(anim.GetFloat("Speed"));
         }
-        else 
+        else
         {
             sr.flipX = (bool)stream.ReceiveNext();
             anim.SetFloat("Speed", (float)stream.ReceiveNext());
         }
+    }
+
+    void UpdateDashUI()
+    {
+        if (dashCooldownFill == null) return;
+
+        if (!canDash)
+        {
+            dashTimer -= Time.deltaTime;
+            dashCooldownFill.fillAmount = 1f - (dashTimer / dashCooldown);
+        }
+        else
+        {
+            dashCooldownFill.fillAmount = 1f;
+        }
+    }
+
+
+    IEnumerator Dash()
+    {
+        canDash = false;
+        isDashing = true;
+
+        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 dashDir = (mousePos - (Vector2)transform.position).normalized;
+
+        rb.velocity = dashDir * dashForce;
+
+        yield return new WaitForSeconds(dashDuration);
+
+        rb.velocity = Vector2.zero;
+
+        dashTimer = dashCooldown;
+
+        isDashing = false;
+
+        yield return new WaitForSeconds(dashCooldown);
+
+        canDash = true;
     }
 }
