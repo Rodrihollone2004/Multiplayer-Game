@@ -20,7 +20,7 @@ public class Ball : MonoBehaviourPunCallbacks
     void RPC_PickUp(int playerViewID)
     {
         GameObject playerObj = PhotonView.Find(playerViewID).gameObject;
-        Transform holdPoint = playerObj.GetComponent<PlayerMovement>().HoldPoint;
+        Transform holdPoint = playerObj.GetComponent<PlayerBallHandler>().HoldPoint;
 
         transform.SetParent(holdPoint);
         transform.localPosition = Vector3.zero;
