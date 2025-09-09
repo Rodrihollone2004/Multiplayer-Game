@@ -670,16 +670,16 @@ GameObject:
   - component: {fileID: 7109829704869122265}
   - component: {fileID: 4087611833373747064}
   - component: {fileID: 1224815097747572809}
+  - component: {fileID: -2038457187952761387}
   - component: {fileID: 8718871514707150898}
   - component: {fileID: 6856208971885145046}
   - component: {fileID: 3878733997628536130}
-  - component: {fileID: -2038457187952761387}
   - component: {fileID: -2089938479943961079}
   - component: {fileID: 796256165946832291}
-  - component: {fileID: -6714013115352929476}
-  - component: {fileID: 6909700887603566582}
   - component: {fileID: -5371543562563463107}
   - component: {fileID: 5601621808941988958}
+  - component: {fileID: -6714013115352929476}
+  - component: {fileID: 6909700887603566582}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -784,6 +784,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.59679, y: 0.8502363}
   m_EdgeRadius: 0
+--- !u!50 &-2038457187952761387
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8995399140137852937}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!114 &8718871514707150898
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -858,27 +879,6 @@ MonoBehaviour:
   m_SynchronizeAngularVelocity: 0
   m_TeleportEnabled: 0
   m_TeleportIfDistanceGreaterThan: 3
---- !u!50 &-2038457187952761387
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8995399140137852937}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 4
 --- !u!114 &-2089938479943961079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -912,6 +912,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvasName: {fileID: 1384052337705069014}
   nameText: {fileID: 1803368440}
+--- !u!114 &-5371543562563463107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8995399140137852937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a5d4daa0c75fe04ba8bd1adc1fdde36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  holdPoint: {fileID: 4025745016427975199}
+  minThrowSpeed: 12
+  maxThrowSpeed: 25
+  chargeTime: 1.5
+--- !u!114 &5601621808941988958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8995399140137852937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: becb46b16116e4f4eafcddf51e0ccebe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dashCooldownFill: {fileID: 2640146613809726716}
+  chargeMeterFill: {fileID: 5612271554322355483}
 --- !u!114 &-6714013115352929476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -944,36 +974,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
---- !u!114 &-5371543562563463107
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8995399140137852937}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a5d4daa0c75fe04ba8bd1adc1fdde36, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  holdPoint: {fileID: 4025745016427975199}
-  minThrowSpeed: 12
-  maxThrowSpeed: 25
-  chargeTime: 1.5
---- !u!114 &5601621808941988958
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8995399140137852937}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: becb46b16116e4f4eafcddf51e0ccebe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dashCooldownFill: {fileID: 2640146613809726716}
-  chargeMeterFill: {fileID: 5612271554322355483}
 --- !u!1 &9029748372879965274
 GameObject:
   m_ObjectHideFlags: 0
