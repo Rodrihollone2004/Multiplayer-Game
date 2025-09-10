@@ -6,6 +6,7 @@ public class Ball : MonoBehaviourPunCallbacks
 {
     Rigidbody2D rb;
     public bool IsHeld { get; private set; } = false;
+    public bool CanCauseDamage { get; private set; } = false;
 
     private float lastHitTime = -1f;
     private float damageCooldown = 0.8f;
@@ -20,25 +21,31 @@ public class Ball : MonoBehaviourPunCallbacks
         if (!col.gameObject.CompareTag("Player"))
             return;
 
-        var handler = col.gameObject.GetComponent<PlayerBallHandler>();
         var health = col.gameObject.GetComponent<PlayerHealth>();
 
-        // Bloquear daño si la pelota está siendo sostenida o en proceso de recogida
-        if (IsHeld)
-            return;
+        // Solo el dueño de la pelota decide si causa daño
+        if (!photonView.IsMine) return;
 
-        // Solo daña si va rápido y no está en mano
-        if (health != null && rb.velocity.magnitude > 5f)
+        // Solo daña si puede causar daño y va rápido
+        if (health != null && CanCauseDamage && rb.velocity.magnitude > 5f)
         {
             if (Time.time - lastHitTime > damageCooldown)
             {
                 lastHitTime = Time.time;
                 health.GetHit();
 
-                rb.velocity = Vector2.zero;
-                rb.isKinematic = true;
+                // Resetear la pelota después de golpear
+                photonView.RPC("RPC_ResetBall", RpcTarget.All);
             }
         }
+    }
+
+    [PunRPC]
+    void RPC_ResetBall()
+    {
+        rb.velocity = Vector2.zero;
+        rb.isKinematic = true;
+        CanCauseDamage = false; // Ya no puede causar daño después de golpear
     }
 
     public void PickUp(int playerViewID)
@@ -50,6 +57,7 @@ public class Ball : MonoBehaviourPunCallbacks
     void RPC_PickUp(int playerViewID)
     {
         IsHeld = true;
+        CanCauseDamage = false;
 
         GameObject playerObj = PhotonView.Find(playerViewID).gameObject;
         Transform holdPoint = playerObj.GetComponent<PlayerBallHandler>().HoldPoint;
@@ -72,6 +80,7 @@ public class Ball : MonoBehaviourPunCallbacks
     void RPC_Throw(float dirX, float dirY, int playerViewID, float speed)
     {
         IsHeld = false;
+        CanCauseDamage = true; // Ahora puede causar daño
 
         Vector2 dir = new Vector2(dirX, dirY);
 
@@ -92,5 +101,11 @@ public class Ball : MonoBehaviourPunCallbacks
     {
         yield return new WaitForSeconds(delay);
         Physics2D.IgnoreCollision(ballCol, playerCol, false);
+    }
+
+    // Método público para verificar si se puede agarrar
+    public bool CanBePickedUp()
+    {
+        return !IsHeld && !CanCauseDamage;
     }
 }

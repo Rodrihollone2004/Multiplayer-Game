@@ -97,8 +97,11 @@ public class PlayerBallHandler : MonoBehaviourPunCallbacks
         if (collision.gameObject.CompareTag("Ball"))
         {
             Ball ball = collision.gameObject.GetComponent<Ball>();
-            if (ball != null && heldBall == null)
+
+            if (ball != null && heldBall == null && ball.CanBePickedUp())
+            {
                 PickUpBall(ball);
+            }
         }
     }
 
