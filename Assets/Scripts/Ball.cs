@@ -5,10 +5,40 @@ using UnityEngine;
 public class Ball : MonoBehaviourPunCallbacks
 {
     Rigidbody2D rb;
+    public bool IsHeld { get; private set; } = false;
+
+    private float lastHitTime = -1f;
+    private float damageCooldown = 0.8f;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+    }
+
+    private void OnCollisionEnter2D(Collision2D col)
+    {
+        if (!col.gameObject.CompareTag("Player"))
+            return;
+
+        var handler = col.gameObject.GetComponent<PlayerBallHandler>();
+        var health = col.gameObject.GetComponent<PlayerHealth>();
+
+        // Bloquear daño si la pelota está siendo sostenida o en proceso de recogida
+        if (IsHeld)
+            return;
+
+        // Solo daña si va rápido y no está en mano
+        if (health != null && rb.velocity.magnitude > 5f)
+        {
+            if (Time.time - lastHitTime > damageCooldown)
+            {
+                lastHitTime = Time.time;
+                health.GetHit();
+
+                rb.velocity = Vector2.zero;
+                rb.isKinematic = true;
+            }
+        }
     }
 
     public void PickUp(int playerViewID)
@@ -19,6 +49,8 @@ public class Ball : MonoBehaviourPunCallbacks
     [PunRPC]
     void RPC_PickUp(int playerViewID)
     {
+        IsHeld = true;
+
         GameObject playerObj = PhotonView.Find(playerViewID).gameObject;
         Transform holdPoint = playerObj.GetComponent<PlayerBallHandler>().HoldPoint;
 
@@ -39,6 +71,8 @@ public class Ball : MonoBehaviourPunCallbacks
     [PunRPC]
     void RPC_Throw(float dirX, float dirY, int playerViewID, float speed)
     {
+        IsHeld = false;
+
         Vector2 dir = new Vector2(dirX, dirY);
 
         GameObject playerObj = PhotonView.Find(playerViewID).gameObject;

@@ -1,5 +1,6 @@
 using UnityEngine;
 using Photon.Pun;
+using System.Collections;
 
 public class PlayerBallHandler : MonoBehaviourPunCallbacks
 {
@@ -99,6 +100,11 @@ public class PlayerBallHandler : MonoBehaviourPunCallbacks
             if (ball != null && heldBall == null)
                 PickUpBall(ball);
         }
+    }
+
+    public bool CanPickUpBall(Ball ball)
+    {
+        return heldBall == null && !ball.IsHeld;
     }
 
 }
