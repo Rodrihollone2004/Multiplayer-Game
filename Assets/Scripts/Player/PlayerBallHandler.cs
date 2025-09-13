@@ -14,7 +14,12 @@ public class PlayerBallHandler : MonoBehaviourPunCallbacks
     private bool isCharging = false;
     private float currentCharge = 0f;
 
+    [Header("Parry")]
+    [SerializeField] private float parryRadius = 1.5f;
+    [SerializeField] private LayerMask ballLayer;
+
     private SpriteRenderer sr;
+    Vector2 dir;
 
     public bool IsCharging => isCharging;
     public float ChargeProgress => currentCharge / chargeTime;
@@ -31,6 +36,35 @@ public class PlayerBallHandler : MonoBehaviourPunCallbacks
         if (photonView.IsMine)
         {
             HandleBallInput();
+
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, parryRadius, ballLayer);
+
+                foreach (var hit in hits)
+                {
+                    Ball ball = hit.GetComponent<Ball>();
+                    if (ball != null && !ball.IsHeld && ball.CanCauseDamage)
+                    {
+                        Vector2 repelDir = (ball.transform.position - transform.position).normalized;
+
+                        ball.photonView.RPC("RPC_Parry", ball.photonView.Owner, repelDir.x, repelDir.y);
+                    }
+                }
+            }
+            //else if (Input.GetKeyDown(KeyCode.F) && heldBall == null)
+            //{
+            //    Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, parryRadius, ballLayer);
+
+            //    foreach (var hit in hits)
+            //    {
+            //        Ball ball = hit.GetComponent<Ball>();
+            //        if (ball != null && heldBall == null && ball.CanBePickedUp())
+            //        {
+            //            PickUpBall(ball);
+            //        }
+            //    }
+            //}
         }
     }
 
@@ -69,7 +103,7 @@ public class PlayerBallHandler : MonoBehaviourPunCallbacks
     void ThrowBall()
     {
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 dir = (mousePos - (Vector2)transform.position).normalized;
+        dir = (mousePos - (Vector2)transform.position).normalized;
 
         float throwSpeed = currentCharge > 0f ?
             Mathf.Lerp(minThrowSpeed, maxThrowSpeed, currentCharge / chargeTime) : minThrowSpeed;

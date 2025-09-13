@@ -7,6 +7,7 @@ public class Ball : MonoBehaviourPunCallbacks
     Rigidbody2D rb;
     public bool IsHeld { get; private set; } = false;
     public bool CanCauseDamage { get; private set; } = false;
+    public Rigidbody2D Rb { get => rb; set => rb = value; }
 
     private float lastHitTime = -1f;
     private float damageCooldown = 0.8f;
@@ -19,14 +20,15 @@ public class Ball : MonoBehaviourPunCallbacks
     private void OnCollisionEnter2D(Collision2D col)
     {
         if (!col.gameObject.CompareTag("Player"))
+        {
+            CanCauseDamage = false;
             return;
+        }
 
         var health = col.gameObject.GetComponent<PlayerHealth>();
 
-        // Solo el dueño de la pelota decide si causa daño
         if (!photonView.IsMine) return;
 
-        // Solo daña si puede causar daño y va rápido
         if (health != null && CanCauseDamage && rb.velocity.magnitude > 5f)
         {
             if (Time.time - lastHitTime > damageCooldown)
@@ -34,7 +36,6 @@ public class Ball : MonoBehaviourPunCallbacks
                 lastHitTime = Time.time;
                 health.GetHit();
 
-                // Resetear la pelota después de golpear
                 photonView.RPC("RPC_ResetBall", RpcTarget.All);
             }
         }
@@ -108,4 +109,13 @@ public class Ball : MonoBehaviourPunCallbacks
     {
         return !IsHeld && !CanCauseDamage;
     }
+
+    [PunRPC]
+    void RPC_Parry(float x, float y)
+    {
+        Vector2 repelDir = new Vector2(x, y);
+        rb.AddForce(repelDir * 20f, ForceMode2D.Impulse);
+        CanCauseDamage = false; 
+    }
+
 }

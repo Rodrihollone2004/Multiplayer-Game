@@ -8,10 +8,11 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] float moveSpeed = 5f;
     [SerializeField] Rigidbody2D rb;
 
+    [Header("Dash")]
     [SerializeField] float dashForce = 15f;
     [SerializeField] float dashDuration = 0.2f;
     [SerializeField] float dashCooldown = 5f;
-    [SerializeField] PlayerBallHandler playerBallHandler;
+    private PlayerBallHandler playerBallHandler;
 
     public GameObject mark;
 
@@ -32,6 +33,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks, IPunObservable
     {
         anim = GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
+        playerBallHandler = GetComponent<PlayerBallHandler>();
     }
 
     void Update()
