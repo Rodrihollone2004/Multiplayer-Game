@@ -6,7 +6,7 @@ public class Ball : MonoBehaviourPunCallbacks
 {
     Rigidbody2D rb;
     public bool IsHeld { get; private set; } = false;
-    public bool CanCauseDamage { get; private set; } = false;
+    public bool CanCauseDamage { get; set; } = false;
     public Rigidbody2D Rb { get => rb; set => rb = value; }
 
     private float lastHitTime = -1f;

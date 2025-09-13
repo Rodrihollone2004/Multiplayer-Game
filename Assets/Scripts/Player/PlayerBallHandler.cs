@@ -17,9 +17,16 @@ public class PlayerBallHandler : MonoBehaviourPunCallbacks
     [Header("Parry")]
     [SerializeField] private float parryRadius = 1.5f;
     [SerializeField] private LayerMask ballLayer;
+    [SerializeField] private float parryCoolDown;
+
+    private float currentCoolDown = 0f;
+    private bool canParry = true;
 
     private SpriteRenderer sr;
     Vector2 dir;
+
+    public float ParryCooldownProgress => 1f - (currentCoolDown / parryCoolDown);
+    public bool IsParryReady => canParry;
 
     public bool IsCharging => isCharging;
     public float ChargeProgress => currentCharge / chargeTime;
@@ -37,35 +44,74 @@ public class PlayerBallHandler : MonoBehaviourPunCallbacks
         {
             HandleBallInput();
 
-            if (Input.GetKeyDown(KeyCode.F))
+            if (Input.GetKeyDown(KeyCode.F) && canParry)
             {
-                Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, parryRadius, ballLayer);
-
-                foreach (var hit in hits)
+                if (heldBall == null)
                 {
-                    Ball ball = hit.GetComponent<Ball>();
-                    if (ball != null && !ball.IsHeld && ball.CanCauseDamage)
-                    {
-                        Vector2 repelDir = (ball.transform.position - transform.position).normalized;
-
-                        ball.photonView.RPC("RPC_Parry", ball.photonView.Owner, repelDir.x, repelDir.y);
-                    }
+                    TryPickUpBall();
+                    StartParryCooldown();
+                }
+                else
+                {
+                    TryParryBalls();
+                    StartParryCooldown();
                 }
             }
-            //else if (Input.GetKeyDown(KeyCode.F) && heldBall == null)
-            //{
-            //    Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, parryRadius, ballLayer);
 
-            //    foreach (var hit in hits)
-            //    {
-            //        Ball ball = hit.GetComponent<Ball>();
-            //        if (ball != null && heldBall == null && ball.CanBePickedUp())
-            //        {
-            //            PickUpBall(ball);
-            //        }
-            //    }
-            //}
+            if (!canParry)
+                CoolDownParry();
         }
+    }
+
+    private void StartParryCooldown()
+    {
+        canParry = false;
+        currentCoolDown = parryCoolDown;
+    }
+
+    private void CoolDownParry()
+    {
+        if (currentCoolDown > 0f)
+        {
+            currentCoolDown -= Time.deltaTime;
+        }
+
+        if (currentCoolDown <= 0f)
+        {
+            currentCoolDown = 0f;
+            canParry = true;
+        }
+    }
+
+    private void TryParryBalls()
+    {
+        foreach (Collider2D hit in GetCloseBalls())
+        {
+            Ball ball = hit.GetComponent<Ball>();
+            if (ball != null && !ball.IsHeld && ball.CanCauseDamage)
+            {
+                Vector2 repelDir = (ball.transform.position - transform.position).normalized;
+                ball.photonView.RPC("RPC_Parry", ball.photonView.Owner, repelDir.x, repelDir.y);
+            }
+        }
+    }
+
+    private void TryPickUpBall()
+    {
+        foreach (Collider2D hit in GetCloseBalls())
+        {
+            Ball ball = hit.GetComponent<Ball>();
+            if (ball != null && ball.CanCauseDamage)
+            {
+                PickUpBall(ball);
+                break;
+            }
+        }
+    }
+
+    private Collider2D[] GetCloseBalls()
+    {
+        return Physics2D.OverlapCircleAll(transform.position, parryRadius, ballLayer);
     }
 
     void UpdateHoldPointPosition()

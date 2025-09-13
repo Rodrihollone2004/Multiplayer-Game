@@ -7,6 +7,7 @@ public class PlayerUI : MonoBehaviourPunCallbacks
     [Header("UI References")]
     [SerializeField] private Image dashCooldownFill;
     [SerializeField] private Image chargeMeterFill;
+    [SerializeField] private Image chargeParryFill;
 
     private PlayerMovement playerMovement;
     private PlayerBallHandler playerBallHandler;
@@ -23,6 +24,9 @@ public class PlayerUI : MonoBehaviourPunCallbacks
 
             if (chargeMeterFill != null)
                 chargeMeterFill.fillAmount = 0f;
+
+            if (chargeParryFill != null)
+                chargeParryFill.fillAmount = 1f;
         }
         else
         {
@@ -31,6 +35,9 @@ public class PlayerUI : MonoBehaviourPunCallbacks
 
             if (chargeMeterFill != null)
                 chargeMeterFill.gameObject.SetActive(false);
+
+            if(chargeParryFill != null)
+                chargeParryFill.gameObject.SetActive(false);
         }
     }
 
@@ -38,8 +45,18 @@ public class PlayerUI : MonoBehaviourPunCallbacks
     {
         if (!photonView.IsMine) return;
 
+        UpdateParryUI();
         UpdateDashUI();
         UpdateChargeUI();
+    }
+
+    private void UpdateParryUI()
+    {
+        if (chargeParryFill == null || playerBallHandler == null) return;
+
+        chargeParryFill.fillAmount = playerBallHandler.ParryCooldownProgress;
+
+        chargeParryFill.color = playerBallHandler.IsParryReady ? Color.green : Color.gray;
     }
 
     private void UpdateDashUI()
