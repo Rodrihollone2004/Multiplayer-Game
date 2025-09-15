@@ -37,7 +37,7 @@ public class GameManagerQuemado : MonoBehaviourPunCallbacks
             victoryPanel.SetActive(true);
 
         if (victoryMessage != null)
-            victoryMessage.text = $"🏆 ¡{winnerName} GANÓ LA PARTIDA! y";
+            victoryMessage.text = $"¡{winnerName} GANÓ LA PARTIDA!";
 
             }
 }
