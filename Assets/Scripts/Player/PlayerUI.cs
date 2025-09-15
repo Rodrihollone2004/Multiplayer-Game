@@ -75,7 +75,7 @@ public class PlayerUI : MonoBehaviourPunCallbacks
         if (playerBallHandler.IsCharging)
         {
             chargeMeterFill.fillAmount = playerBallHandler.ChargeProgress;
-            chargeMeterFill.color = Color.Lerp(Color.yellow, Color.red, playerBallHandler.ChargeProgress);
+            chargeMeterFill.color = Color.Lerp(Color.green, Color.red, playerBallHandler.ChargeProgress);
         }
         else
         {
