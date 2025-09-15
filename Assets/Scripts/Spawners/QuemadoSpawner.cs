@@ -8,6 +8,8 @@ public class QuemadoSpawner : MonoBehaviour
 
     void Start()
     {
+        LobbySpawner.Instance.ClearSpawnedPlayers();
+
         int actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
         string prefabToSpawn = "Player";
 
