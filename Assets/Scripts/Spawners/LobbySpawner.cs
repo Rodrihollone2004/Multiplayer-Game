@@ -53,10 +53,11 @@ public class LobbySpawner : MonoBehaviourPunCallbacks
     {
         foreach (var player in spawnedPlayers)
         {
-            if (player != null)
-                Destroy(player);
+            if (player != null && player.GetComponent<PhotonView>() != null)
+                PhotonNetwork.Destroy(player);
         }
 
         spawnedPlayers.Clear();
     }
+
 }
