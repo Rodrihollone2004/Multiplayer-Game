@@ -8,6 +8,7 @@ public class PlayerUI : MonoBehaviourPunCallbacks
     [SerializeField] private Image dashCooldownFill;
     [SerializeField] private Image chargeMeterFill;
     [SerializeField] private Image chargeParryFill;
+    [SerializeField] private GameObject panelAbilities;
 
     private PlayerMovement playerMovement;
     private PlayerBallHandler playerBallHandler;
@@ -27,6 +28,8 @@ public class PlayerUI : MonoBehaviourPunCallbacks
 
             if (chargeParryFill != null)
                 chargeParryFill.fillAmount = 1f;
+
+            panelAbilities.SetActive(true);
         }
         else
         {
@@ -38,6 +41,8 @@ public class PlayerUI : MonoBehaviourPunCallbacks
 
             if(chargeParryFill != null)
                 chargeParryFill.gameObject.SetActive(false);
+
+            panelAbilities.SetActive(false);
         }
     }
 

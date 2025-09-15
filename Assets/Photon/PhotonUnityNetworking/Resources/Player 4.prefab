@@ -1102,6 +1102,7 @@ MonoBehaviour:
   dashCooldownFill: {fileID: 2640146613809726716}
   chargeMeterFill: {fileID: 5612271554322355483}
   chargeParryFill: {fileID: 4544128585440674230}
+  panelAbilities: {fileID: 4626404670204750753}
 --- !u!114 &-6714013115352929476
 MonoBehaviour:
   m_ObjectHideFlags: 0

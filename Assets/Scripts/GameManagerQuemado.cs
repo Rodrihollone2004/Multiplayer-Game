@@ -20,7 +20,7 @@ public class GameManagerQuemado : MonoBehaviourPunCallbacks
         var players = FindObjectsOfType<PlayerHealth>();
         var alivePlayers = players.Where(p => !p.IsEliminated).ToList();
 
-      
+
         if (alivePlayers.Count == 1)
         {
             string winnerName = alivePlayers[0].photonView.Owner.NickName;
@@ -31,13 +31,10 @@ public class GameManagerQuemado : MonoBehaviourPunCallbacks
     [PunRPC]
     void RPC_DeclareWinner(string winnerName)
     {
-        Debug.Log("El ganador es: " + winnerName);
-
         if (victoryPanel != null)
             victoryPanel.SetActive(true);
 
         if (victoryMessage != null)
             victoryMessage.text = $"¡{winnerName} GANÓ LA PARTIDA!";
-
-            }
+    }
 }
