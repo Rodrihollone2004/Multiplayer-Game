@@ -53,6 +53,7 @@ MonoBehaviour:
   - TakeDamage
   - RPC_ResetBall
   - RPC_Parry
+  - RPC_Mancha
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

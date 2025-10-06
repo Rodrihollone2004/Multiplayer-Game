@@ -50,6 +50,20 @@ public class MasterManager : MonoBehaviourPunCallbacks
         PhotonNetwork.LoadLevel("Quemado");
     }
 
+    public void Mancha()
+    {
+        photonView.RPC("RPC_Mancha", RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
+    void RPC_Mancha()
+    {
+        if (LobbySpawner.Instance != null)
+            LobbySpawner.Instance.ClearSpawnedPlayers();
+
+        PhotonNetwork.LoadLevel("Mancha");
+    }
+
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
         if (PhotonNetwork.IsMasterClient) 

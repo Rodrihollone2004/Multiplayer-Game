@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Quemado.unity
     guid: d8736507ea018954fab94a6622bbcae8
+  - enabled: 1
+    path: Assets/Scenes/Mancha.unity
+    guid: 373dc7bd6ed81e84aabd61ac07ddb406
   m_configObjects: {}
