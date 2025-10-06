@@ -46,7 +46,7 @@ public class Ball : MonoBehaviourPunCallbacks
     {
         rb.velocity = Vector2.zero;
         rb.isKinematic = true;
-        CanCauseDamage = false; // Ya no puede causar daño después de golpear
+        CanCauseDamage = false;
     }
 
     public void PickUp(int playerViewID)
@@ -81,7 +81,7 @@ public class Ball : MonoBehaviourPunCallbacks
     void RPC_Throw(float dirX, float dirY, int playerViewID, float speed)
     {
         IsHeld = false;
-        CanCauseDamage = true; // Ahora puede causar daño
+        CanCauseDamage = true;
 
         Vector2 dir = new Vector2(dirX, dirY);
 
@@ -104,7 +104,6 @@ public class Ball : MonoBehaviourPunCallbacks
         Physics2D.IgnoreCollision(ballCol, playerCol, false);
     }
 
-    // Método público para verificar si se puede agarrar
     public bool CanBePickedUp()
     {
         return !IsHeld && !CanCauseDamage;

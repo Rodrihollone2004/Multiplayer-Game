@@ -8,22 +8,10 @@ public class CreateAndJoin : MonoBehaviourPunCallbacks
     [SerializeField] TMP_InputField input_Create;
     [SerializeField] TMP_InputField input_Join;
 
-    [Header("Error UI")]
-    [SerializeField] GameObject errorPanel;
-    [SerializeField] TMP_Text errorMessageText;
-
-    //ExitGames.Client.Photon.Hashtable customProperties = new ExitGames.Client.Photon.Hashtable();
-    //private const string currentLevel = "level";
-
     public void CreateRoom()
     {
-        string roomName = input_Create.text.Trim();
-
-        if (string.IsNullOrEmpty(roomName))
-        {
-            ShowError("The room name cannot be empty.");
+        if (!TryGetRoomName(input_Create, out string roomName))
             return;
-        }
 
         RoomOptions roomOptions = new RoomOptions();
         roomOptions.MaxPlayers = 4;
@@ -38,13 +26,9 @@ public class CreateAndJoin : MonoBehaviourPunCallbacks
 
     public void JoinRoom()
     {
-        string roomName = input_Join.text.Trim();
-
-        if (string.IsNullOrEmpty(roomName))
-        {
-            ShowError("The room name cannot be empty.");
+        if (!TryGetRoomName(input_Join, out string roomName))
             return;
-        }
+
         PhotonNetwork.JoinRoom(roomName);
     }
 
@@ -60,22 +44,23 @@ public class CreateAndJoin : MonoBehaviourPunCallbacks
 
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
-        ShowError(message);
+        ErrorUI.Instance.ShowError(message);
     }
 
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
-        ShowError(message);
+        ErrorUI.Instance.ShowError(message);
     }
 
-    void ShowError(string message)
+    private bool TryGetRoomName(TMP_InputField inputField, out string roomName)
     {
-        errorMessageText.text = message;
-        errorPanel.SetActive(true);
-    }
+        roomName = inputField.text.Trim();
 
-    public void HideError()
-    {
-        errorPanel.SetActive(false);
+        if (string.IsNullOrEmpty(roomName))
+        {
+            ErrorUI.Instance.ShowError("The room name cannot be empty.");
+            return false;
+        }
+        return true;
     }
 }

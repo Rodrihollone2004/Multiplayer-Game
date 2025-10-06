@@ -5,27 +5,30 @@ using Photon.Realtime;
 
 public class RoomList : MonoBehaviourPunCallbacks
 {
+    [Header("References")]
     [SerializeField] GameObject roomPrefab;
-    [SerializeField] GameObject[] allRooms;
+    [SerializeField] Transform contentParent; 
+    [SerializeField] CreateAndJoin createAndJoin; 
+
+    private List<GameObject> activeRooms = new List<GameObject>();
+
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
-        for (int i = 0; i < allRooms.Length; i++)
-        {
-            if (allRooms[i] != null)
-            {
-                Destroy(allRooms[i]);
-            }
-        }
+        foreach (GameObject obj in activeRooms)
+            Destroy(obj);
 
-        allRooms = new GameObject[roomList.Count];
+        activeRooms.Clear();
 
-        for (int i = 0; i < roomList.Count; i++)
+        foreach (RoomInfo info in roomList)
         {
-            if (roomList[i].IsOpen && roomList[i].IsVisible && roomList[i].PlayerCount >= 1)
+            if (info.IsOpen && info.IsVisible && info.PlayerCount >= 0)
             {
-                GameObject Room = Instantiate(roomPrefab, Vector3.zero, Quaternion.identity, GameObject.Find("Content").transform);
-                Room.GetComponent<Room>().Name.text = roomList[i].Name;
-                allRooms[i] = Room;
+                GameObject roomObj = Instantiate(roomPrefab, contentParent);
+                RoomUI roomUI = roomObj.GetComponent<RoomUI>();
+
+                roomUI.Setup(info.Name, info.PlayerCount, info.MaxPlayers, createAndJoin.JoinRoomInList);
+
+                activeRooms.Add(roomObj);
             }
         }
     }

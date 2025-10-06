@@ -537,8 +537,9 @@ GameObject:
   m_Component:
   - component: {fileID: 108792533}
   - component: {fileID: 108792534}
+  - component: {fileID: 108792535}
   m_Layer: 0
-  m_Name: CreateAndJoin
+  m_Name: Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -573,6 +574,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   input_Create: {fileID: 902507369}
   input_Join: {fileID: 2010279027}
+--- !u!114 &108792535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 108792531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4462c2783c9218e458ab83473a2b430a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   errorPanel: {fileID: 1888041025}
   errorMessageText: {fileID: 1693545616}
 --- !u!1 &220675734
@@ -659,8 +672,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 108792534}
-        m_TargetAssemblyTypeName: CreateAndJoin, Assembly-CSharp
+      - m_Target: {fileID: 108792535}
+        m_TargetAssemblyTypeName: ErrorUI, Assembly-CSharp
         m_MethodName: HideError
         m_Mode: 1
         m_Arguments:
@@ -2090,8 +2103,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomPrefab: {fileID: 8377857800322639900, guid: ecb764ef991f80c489b96467fe11eb82, type: 3}
-  allRooms:
-  - {fileID: 0}
+  contentParent: {fileID: 2024761524}
+  createAndJoin: {fileID: 108792534}
 --- !u!1 &1129214740
 GameObject:
   m_ObjectHideFlags: 0

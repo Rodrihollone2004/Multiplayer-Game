@@ -7,9 +7,6 @@ public class LobbySpawner : MonoBehaviourPunCallbacks
 {
     public static LobbySpawner Instance;
 
-    //[Header("Player Prefab")]
-    //[SerializeField] private string playerPrefabName = "Player";
-
     private List<GameObject> spawnedPlayers = new List<GameObject>();
 
     private void Awake()

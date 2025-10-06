@@ -1,6 +1,7 @@
 using Photon.Pun;
-using UnityEngine;
+using Photon.Realtime;
 using TMPro;
+using UnityEngine;
 
 public class MasterManager : MonoBehaviourPunCallbacks
 {
@@ -19,23 +20,19 @@ public class MasterManager : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        if (PhotonNetwork.IsMasterClient && canOpenPanel)
-        {
-            if (Input.GetKeyDown(KeyCode.E))
-            {
+        if (PhotonNetwork.IsMasterClient && canOpenPanel && Input.GetKeyDown(KeyCode.E)) 
+        { 
                 configPanel.SetActive(!configPanel.activeSelf);
-            }
         }
     }
 
     public void SetCanOpenPanel(bool value)
     {
-        canOpenPanel = value;
+        canOpenPanel = value; 
+        if (hintText != null) 
+            hintText.gameObject.SetActive(PhotonNetwork.IsMasterClient && value); 
 
-        if (PhotonNetwork.IsMasterClient && hintText != null)
-            hintText.gameObject.SetActive(value);
-
-        if (!value)
+        if (!value) 
             configPanel.SetActive(false);
     }
 
@@ -53,4 +50,17 @@ public class MasterManager : MonoBehaviourPunCallbacks
         PhotonNetwork.LoadLevel("Quemado");
     }
 
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        if (PhotonNetwork.IsMasterClient) 
+        { 
+            if (canOpenPanel && hintText != null) 
+                hintText.gameObject.SetActive(true); 
+        } 
+        else 
+        { configPanel.SetActive(false); 
+            if (hintText != null) 
+                hintText.gameObject.SetActive(false); 
+        }
+    }
 }
