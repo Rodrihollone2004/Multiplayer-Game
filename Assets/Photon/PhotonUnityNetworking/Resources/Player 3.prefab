@@ -827,7 +827,6 @@ GameObject:
   - component: {fileID: -2038457187952761387}
   - component: {fileID: 8718871514707150898}
   - component: {fileID: 6856208971885145046}
-  - component: {fileID: 3878733997628536130}
   - component: {fileID: -2089938479943961079}
   - component: {fileID: 796256165946832291}
   - component: {fileID: -5371543562563463107}
@@ -980,7 +979,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 6856208971885145046}
-  - {fileID: 3878733997628536130}
+  - {fileID: 0}
   - {fileID: -2089938479943961079}
   sceneViewId: 0
   InstantiationId: 0
@@ -1018,22 +1017,6 @@ MonoBehaviour:
     InterpolateOption: 0
     InterpolateMoveTowardsSpeed: 1
     InterpolateLerpSpeed: 0
---- !u!114 &3878733997628536130
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8995399140137852937}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e7cb724808c322458aa4d15f5035fa9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizeVelocity: 1
-  m_SynchronizeAngularVelocity: 0
-  m_TeleportEnabled: 0
-  m_TeleportIfDistanceGreaterThan: 3
 --- !u!114 &-2089938479943961079
 MonoBehaviour:
   m_ObjectHideFlags: 0
