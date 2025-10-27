@@ -5,7 +5,7 @@ using TMPro;
 public class WordManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] TMP_Text currentWordText;
-    [SerializeField] string[] words5;
+    [SerializeField] string[] words;
     private string currentWord;
     private string currentInput = "";
     private StepMover stepMover;
@@ -54,7 +54,7 @@ public class WordManager : MonoBehaviourPunCallbacks
 
     void GenerateNewWord()
     {
-        currentWord = words5[Random.Range(0, words5.Length)];
+        currentWord = words[Random.Range(0, words.Length)];
         currentInput = "";
         currentWordText.text = currentWord;
     }

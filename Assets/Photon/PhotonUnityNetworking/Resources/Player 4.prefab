@@ -1403,23 +1403,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentWordText: {fileID: 9136115604559831501}
-  words5:
-  - momia
-  - feliz
-  - erizo
-  - costo
-  - labia
-  - manco
-  - zurda
-  - playa
-  - pesca
-  - verso
-  - yendo
-  - queda
-  - tapar
-  - sobar
-  - messi
-  - porro
+  words:
+  - insomnio
+  - estrategia
+  - paranoia
+  - fragmento
+  - advertir
+  - silencio
+  - abandono
+  - chamuyar
+  - proyecto
+  - subrayar
 --- !u!114 &-4763131610384379946
 MonoBehaviour:
   m_ObjectHideFlags: 0
