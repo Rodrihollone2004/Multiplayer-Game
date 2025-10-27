@@ -835,6 +835,8 @@ GameObject:
   - component: {fileID: 8654406207877086873}
   - component: {fileID: 6909700887603566582}
   - component: {fileID: 7318757389737526408}
+  - component: {fileID: 1457006346279804241}
+  - component: {fileID: -8472172532181142975}
   m_Layer: 0
   m_Name: Player 3
   m_TagString: Player
@@ -1148,6 +1150,47 @@ MonoBehaviour:
   m_SynchronizeAngularVelocity: 0
   m_TeleportEnabled: 0
   m_TeleportIfDistanceGreaterThan: 3
+--- !u!114 &1457006346279804241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8995399140137852937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3a4ba1447ee1494da6a21ca3d867f4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentWordText: {fileID: 0}
+  words5:
+  - momia
+  - feliz
+  - erizo
+  - costo
+  - labia
+  - manco
+  - zurda
+  - playa
+  - pesca
+  - verso
+  - yendo
+  - queda
+  - tapar
+  - sobar
+--- !u!114 &-8472172532181142975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8995399140137852937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58af6e9ec6b67234096d37dfbf9351d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
 --- !u!1 &9029748372879965274
 GameObject:
   m_ObjectHideFlags: 0

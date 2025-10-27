@@ -64,6 +64,20 @@ public class MasterManager : MonoBehaviourPunCallbacks
         PhotonNetwork.LoadLevel("Mancha");
     }
 
+    public void Words()
+    {
+        photonView.RPC("RPC_Words", RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
+    void RPC_Words()
+    {
+        if (LobbySpawner.Instance != null)
+            LobbySpawner.Instance.ClearSpawnedPlayers();
+
+        PhotonNetwork.LoadLevel("Words");
+    }
+
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
         if (PhotonNetwork.IsMasterClient) 

@@ -54,6 +54,7 @@ MonoBehaviour:
   - RPC_ResetBall
   - RPC_Parry
   - RPC_Mancha
+  - RPC_Words
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
