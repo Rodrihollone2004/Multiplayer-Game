@@ -44,8 +44,7 @@ public class PlayerTyping : MonoBehaviourPunCallbacks
             }
         }
 
-        if (inputDisplay != null)
-            inputDisplay.text = currentInput;
+        UpdateWordColors();
 
         if (currentInput.Equals(WordManager.Instance.currentWord, System.StringComparison.OrdinalIgnoreCase))
         {
@@ -64,5 +63,27 @@ public class PlayerTyping : MonoBehaviourPunCallbacks
 
         if (inputDisplay != null)
             inputDisplay.text = "";
+    }
+
+    void UpdateWordColors()
+    {
+        if (WordManager.Instance == null || string.IsNullOrEmpty(WordManager.Instance.currentWord))
+            return;
+
+        string targetWord = WordManager.Instance.currentWord;
+        string colored = "";
+
+        for (int i = 0; i < currentInput.Length; i++)
+        {
+            char inputChar = currentInput[i];
+            char targetChar = targetWord[i];
+
+            if (char.ToLower(inputChar) == char.ToLower(targetChar))
+                colored += $"<color=yellow>{inputChar}</color>";
+            else
+                colored += $"<color=red>{inputChar}</color>";
+        }
+
+        inputDisplay.text = colored;
     }
 }
