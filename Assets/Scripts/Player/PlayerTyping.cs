@@ -1,10 +1,10 @@
-using Photon.Pun;
+﻿using Photon.Pun;
 using TMPro;
 using UnityEngine;
 
 public class PlayerTyping : MonoBehaviourPunCallbacks
 {
-    [SerializeField] TMP_Text inputDisplay;
+    private TMP_Text inputDisplay;
     private string currentInput = "";
     private StepMover stepMover;
 
@@ -12,19 +12,17 @@ public class PlayerTyping : MonoBehaviourPunCallbacks
     {
         stepMover = GetComponent<StepMover>();
 
-        if (inputDisplay == null)
-        {
-            GameObject go = GameObject.Find("PlayerInputText");
-            if (go != null)
-                inputDisplay = go.GetComponent<TMP_Text>();
-        }
+        int actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
+        string textName = $"PlayerInputText_{actorNumber}";
+        GameObject go = GameObject.Find(textName);
+
+        if (go != null)
+            inputDisplay = go.GetComponent<TMP_Text>();
+        else
+            Debug.LogWarning($"⚠ No se encontró {textName} en la escena");
 
         if (!photonView.IsMine)
-        {
-            if (inputDisplay != null)
-                inputDisplay.gameObject.SetActive(false);
             enabled = false;
-        }
     }
 
     void Update()
