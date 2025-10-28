@@ -6,11 +6,11 @@ public class ScriptsPlayerManager : MonoBehaviour
     [SerializeField] GameObject canva;
 
     PlayerMovement playerMovement;
-    WordManager wordManager;
+    PlayerTyping playerTyping;
 
     void Start()
     {
-        wordManager = GetComponent<WordManager>();
+        playerTyping = GetComponent<PlayerTyping>();
         playerMovement = GetComponent<PlayerMovement>();
     }
 
@@ -23,13 +23,13 @@ public class ScriptsPlayerManager : MonoBehaviour
         if (sceneName == "Words")
         {
             playerMovement.enabled = false;
-            wordManager.enabled = true;
+            playerTyping.enabled = true;
             canva.SetActive(false);
         }
         else
         {
             playerMovement.enabled = true;
-            wordManager.enabled = false;
+            playerTyping.enabled = false;
             canva.SetActive(true);
         }
     }

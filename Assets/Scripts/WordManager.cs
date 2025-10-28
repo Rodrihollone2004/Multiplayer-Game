@@ -4,80 +4,49 @@ using TMPro;
 
 public class WordManager : MonoBehaviourPunCallbacks
 {
+    public static WordManager Instance;
+
     [SerializeField] TMP_Text currentWordText;
     [SerializeField] string[] words;
-    private string currentWord;
-    private string currentInput = "";
-    private StepMover stepMover;
+    public string currentWord { get; private set; }
+
+    void Awake()
+    {
+        Instance = this;
+    }
 
     void Start()
     {
-        stepMover = GetComponent<StepMover>();
-
         if (currentWordText == null)
             currentWordText = GameObject.Find("WordText").GetComponent<TMP_Text>();
 
-        if (!photonView.IsMine)
-        {
-            currentWordText.gameObject.SetActive(false);
-            enabled = false;
-            return;
-        }
-
-        GenerateNewWord();
-    }
-
-    void Update()
-    {
-        foreach (char c in Input.inputString)
-        {
-            if (c == '\b')
-            {
-                if (currentInput.Length > 0)
-                    currentInput = currentInput.Substring(0, currentInput.Length - 1);
-            }
-            else if (char.IsLetter(c))
-            {
-                if (currentInput.Length < currentWord.Length)
-                    currentInput += c;
-            }
-        }
-
-        UpdateWordColors();
-
-        if (currentInput.Equals(currentWord, System.StringComparison.OrdinalIgnoreCase))
-        {
-            stepMover.MoveUpOneStep();
+        if (PhotonNetwork.IsMasterClient)
             GenerateNewWord();
-        }
     }
 
-    void GenerateNewWord()
+    [PunRPC]
+    void RPC_SetWord(string word)
     {
-        currentWord = words[Random.Range(0, words.Length)];
-        currentInput = "";
-        currentWordText.text = currentWord;
+        currentWord = word;
+        currentWordText.text = word;
     }
 
-    void UpdateWordColors()
+    public void GenerateNewWord()
     {
-        string colored = "";
+        string newWord = words[Random.Range(0, words.Length)];
+        photonView.RPC("RPC_SetWord", RpcTarget.All, newWord);
+    }
 
-        for (int i = 0; i < currentWord.Length; i++)
-        {
-            if (i < currentInput.Length)
-            {
-                if (char.ToLower(currentInput[i]) == char.ToLower(currentWord[i]))
-                    colored += $"<color=yellow>{currentWord[i]}</color>";
-                else
-                    colored += $"<color=red>{currentWord[i]}</color>";
-            }
-            else
-            {
-                colored += $"<color=white>{currentWord[i]}</color>";
-            }
-        }
+    [PunRPC]
+    void RPC_PlayerCompleted(string playerName)
+    {
+        Debug.Log($"{playerName} completó la palabra primero!");
+        if (PhotonNetwork.IsMasterClient)
+            GenerateNewWord();
+    }
 
-        currentWordText.text = colored;
+    public void PlayerCompleted(string playerName)
+    {
+        photonView.RPC("RPC_PlayerCompleted", RpcTarget.All, playerName);
     }
 }

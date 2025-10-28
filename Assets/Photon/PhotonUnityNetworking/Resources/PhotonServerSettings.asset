@@ -55,6 +55,9 @@ MonoBehaviour:
   - RPC_Parry
   - RPC_Mancha
   - RPC_Words
+  - RPC_PlayerCompleted
+  - RPC_SetWord
+  - RPC_WinWord
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

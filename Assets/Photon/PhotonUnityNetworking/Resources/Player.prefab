@@ -1073,9 +1073,9 @@ GameObject:
   - component: {fileID: 8654406207877086873}
   - component: {fileID: 6909700887603566582}
   - component: {fileID: 2015816564691415805}
-  - component: {fileID: -7830056683254948198}
   - component: {fileID: 1990448893577536265}
   - component: {fileID: 3955933226810592103}
+  - component: {fileID: 4811196633719168295}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1390,30 +1390,6 @@ MonoBehaviour:
   m_SynchronizeAngularVelocity: 0
   m_TeleportEnabled: 0
   m_TeleportIfDistanceGreaterThan: 3
---- !u!114 &-7830056683254948198
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8995399140137852937}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3a4ba1447ee1494da6a21ca3d867f4e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentWordText: {fileID: 4696758885776914318}
-  words:
-  - insomnio
-  - estrategia
-  - paranoia
-  - fragmento
-  - advertir
-  - silencio
-  - abandono
-  - chamuyar
-  - proyecto
-  - subrayar
 --- !u!114 &1990448893577536265
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1440,6 +1416,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canva: {fileID: 7096506208263825670}
+--- !u!114 &4811196633719168295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8995399140137852937}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b353e88f14ec3047b179b711694b435, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputDisplay: {fileID: 4696758885776914318}
 --- !u!1 &9029748372879965274
 GameObject:
   m_ObjectHideFlags: 0
