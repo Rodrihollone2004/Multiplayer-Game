@@ -7,6 +7,7 @@ public class PlayerTyping : MonoBehaviourPunCallbacks
     private TMP_Text inputDisplay;
     private string currentInput = "";
     private StepMover stepMover;
+    private bool canType = false;
 
     void Start()
     {
@@ -21,12 +22,17 @@ public class PlayerTyping : MonoBehaviourPunCallbacks
         else
             Debug.LogWarning($"⚠ No se encontró {textName} en la escena");
 
-        if (!photonView.IsMine)
-            enabled = false;
+        canType = photonView.IsMine;
+    }
+
+    public void SetCanType(bool value)
+    {
+        canType = value;
     }
 
     void Update()
     {
+        if (!canType) return;
         if (WordManager.Instance == null || string.IsNullOrEmpty(WordManager.Instance.currentWord))
             return;
 
@@ -48,21 +54,29 @@ public class PlayerTyping : MonoBehaviourPunCallbacks
 
         if (currentInput.Equals(WordManager.Instance.currentWord, System.StringComparison.OrdinalIgnoreCase))
         {
-            photonView.RPC("RPC_WinWord", RpcTarget.All);
+            photonView.RPC("RPC_WinWord", RpcTarget.All, photonView.ViewID);
         }
     }
 
     [PunRPC]
-    void RPC_WinWord()
+    void RPC_WinWord(int winnerViewID)
     {
-        if (!photonView.IsMine) return;
+        PhotonView winnerView = PhotonView.Find(winnerViewID);
+        if (winnerView == null) return;
 
-        stepMover.MoveUpOneStep();
-        WordManager.Instance.PlayerCompleted(PhotonNetwork.NickName);
-        currentInput = "";
+        StepMover mover = winnerView.GetComponent<StepMover>();
+        if (mover != null)
+            mover.MoveUpOneStep();
 
-        if (inputDisplay != null)
-            inputDisplay.text = "";
+        if (PhotonNetwork.IsMasterClient)
+            WordManager.Instance.PlayerCompleted(winnerView.Owner.NickName);
+
+        if (winnerView.IsMine)
+        {
+            currentInput = "";
+            if (inputDisplay != null)
+                inputDisplay.text = "";
+        }
     }
 
     void UpdateWordColors()
@@ -84,6 +98,7 @@ public class PlayerTyping : MonoBehaviourPunCallbacks
                 colored += $"<color=red>{inputChar}</color>";
         }
 
-        inputDisplay.text = colored;
+        if (inputDisplay != null)
+            inputDisplay.text = colored;
     }
 }

@@ -1,7 +1,8 @@
 using System.Collections;
+using Photon.Pun;
 using UnityEngine;
 
-public class StepMover : MonoBehaviour
+public class StepMover : MonoBehaviourPun
 {
     [SerializeField] float moveSpeed = 5f;
     private Transform[] steps;
@@ -37,5 +38,14 @@ public class StepMover : MonoBehaviour
         }
 
         moving = false;
+
+        if (currentStep >= steps.Length - 1)
+        {
+            if (PhotonNetwork.IsMasterClient)
+            {
+                string winnerName = photonView.Owner.NickName;
+                GameManagerPalabras.Instance.DeclareWinner(winnerName);
+            }
+        }
     }
 }

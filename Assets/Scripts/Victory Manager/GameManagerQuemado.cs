@@ -36,5 +36,10 @@ public class GameManagerQuemado : MonoBehaviourPunCallbacks
 
         if (victoryMessage != null)
             victoryMessage.text = $"¡{winnerName} GANÓ LA PARTIDA!";
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            GlobalGameManager.Instance.AddPoints(winnerName, 1);
+        }
     }
 }

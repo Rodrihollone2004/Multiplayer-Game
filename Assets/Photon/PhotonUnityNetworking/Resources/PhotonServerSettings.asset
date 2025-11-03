@@ -58,6 +58,7 @@ MonoBehaviour:
   - RPC_PlayerCompleted
   - RPC_SetWord
   - RPC_WinWord
+  - RPC_AddPoints
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
