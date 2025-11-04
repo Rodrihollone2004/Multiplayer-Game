@@ -1,6 +1,7 @@
+using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun;
 
 public class GlobalGameManager : MonoBehaviourPunCallbacks
 {
@@ -10,19 +11,19 @@ public class GlobalGameManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-
-            foreach (var player in PhotonNetwork.PlayerList)
-            {
-                playerPoints[player.NickName] = 0;
-            }
-        }
-        else
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+
+        foreach (var player in PhotonNetwork.PlayerList)
+        {
+            if (!playerPoints.ContainsKey(player.NickName))
+                playerPoints[player.NickName] = 0;
         }
     }
 
@@ -45,4 +46,27 @@ public class GlobalGameManager : MonoBehaviourPunCallbacks
     {
         return new Dictionary<string, int>(playerPoints);
     }
+
+    public void ReturnToLobby(float delay = 3f)
+    {
+        if (PhotonNetwork.IsMasterClient)
+            StartCoroutine(ReturnToLobbyRoutine(delay));
+    }
+
+    private IEnumerator ReturnToLobbyRoutine(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        photonView.RPC("RPC_ReturnToLobby", RpcTarget.All);
+    }
+
+    [PunRPC]
+    void RPC_ReturnToLobby()
+    {
+        if (LobbySpawner.Instance != null)
+            LobbySpawner.Instance.ClearSpawnedPlayers();
+
+        PhotonNetwork.LoadLevel("Lobby");
+    }
+
 }

@@ -1,8 +1,9 @@
 ﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
 public class GameManagerQuemado : MonoBehaviourPunCallbacks
 {
@@ -24,8 +25,14 @@ public class GameManagerQuemado : MonoBehaviourPunCallbacks
         if (alivePlayers.Count == 1)
         {
             string winnerName = alivePlayers[0].photonView.Owner.NickName;
-            photonView.RPC("RPC_DeclareWinner", RpcTarget.All, winnerName);
+            PhotonView.Get(Instance).RPC("RPC_DeclareWinner", RpcTarget.All, winnerName);
+
         }
+    }
+
+    public void DeclareWinner(string winnerName)
+    {
+        photonView.RPC("RPC_DeclareWinner", RpcTarget.All, winnerName);
     }
 
     [PunRPC]
@@ -40,6 +47,7 @@ public class GameManagerQuemado : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             GlobalGameManager.Instance.AddPoints(winnerName, 1);
+            GlobalGameManager.Instance.ReturnToLobby(5f);
         }
     }
 }

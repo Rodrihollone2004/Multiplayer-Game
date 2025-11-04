@@ -41,11 +41,8 @@ public class StepMover : MonoBehaviourPun
 
         if (currentStep >= steps.Length - 1)
         {
-            if (PhotonNetwork.IsMasterClient)
-            {
-                string winnerName = photonView.Owner.NickName;
-                GameManagerPalabras.Instance.DeclareWinner(winnerName);
-            }
+            string winnerName = photonView.Owner.NickName;
+            PhotonView.Get(GameManagerPalabras.Instance).RPC("RPC_DeclareWinner", RpcTarget.All, winnerName);
         }
     }
 }

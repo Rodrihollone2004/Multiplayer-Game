@@ -29,6 +29,7 @@ public class GameManagerPalabras : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             GlobalGameManager.Instance.AddPoints(winnerName, 1);
+            GlobalGameManager.Instance.ReturnToLobby(5f);
         }
     }
 }
