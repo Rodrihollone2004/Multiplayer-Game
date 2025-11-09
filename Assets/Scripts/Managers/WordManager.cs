@@ -1,6 +1,7 @@
 using Photon.Pun;
-using UnityEngine;
+using System.Collections.Generic;
 using TMPro;
+using UnityEngine;
 
 public class WordManager : MonoBehaviourPunCallbacks
 {
@@ -9,6 +10,7 @@ public class WordManager : MonoBehaviourPunCallbacks
     [SerializeField] TMP_Text currentWordText;
     [SerializeField] string[] words;
     public string currentWord { get; private set; }
+    private List<string> usedWords = new List<string>();
 
     void Awake()
     {
@@ -33,7 +35,19 @@ public class WordManager : MonoBehaviourPunCallbacks
 
     public void GenerateNewWord()
     {
-        string newWord = words[Random.Range(0, words.Length)];
+        if (usedWords.Count >= words.Length)
+        {
+            usedWords.Clear();
+        }
+
+        string newWord;
+        do
+        {
+            newWord = words[Random.Range(0, words.Length)];
+        }
+        while (usedWords.Contains(newWord));
+
+        usedWords.Add(newWord);
         photonView.RPC("RPC_SetWord", RpcTarget.All, newWord);
     }
 

@@ -51,20 +51,6 @@ public class MasterManager : MonoBehaviourPunCallbacks
         PhotonNetwork.LoadLevel("Quemado");
     }
 
-    public void Mancha()
-    {
-        photonView.RPC("RPC_Mancha", RpcTarget.AllBuffered);
-    }
-
-    [PunRPC]
-    void RPC_Mancha()
-    {
-        if (LobbySpawner.Instance != null)
-            LobbySpawner.Instance.ClearSpawnedPlayers();
-
-        PhotonNetwork.LoadLevel("Mancha");
-    }
-
     public void Words()
     {
         photonView.RPC("RPC_Words", RpcTarget.AllBuffered);
