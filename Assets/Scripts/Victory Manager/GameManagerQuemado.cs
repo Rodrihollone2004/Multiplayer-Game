@@ -47,7 +47,15 @@ public class GameManagerQuemado : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             GlobalGameManager.Instance.AddPoints(winnerName, 1);
+
+            LeaderboardService.SubmitScore(
+                GlobalGameManager.Instance.GetPlayerPoints()[winnerName],
+                "globalhighscore",
+                _ => Debug.Log($"Puntaje actualizado en leaderboard para {winnerName}")
+            );
+
             GlobalGameManager.Instance.ReturnToLobby(5f);
         }
+
     }
 }

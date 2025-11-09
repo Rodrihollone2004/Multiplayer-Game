@@ -1,3 +1,4 @@
+using LootLocker.Requests;
 using Photon.Pun;
 using TMPro;
 using UnityEngine;
@@ -39,5 +40,13 @@ public class Username : MonoBehaviour
         PlayerPrefs.SetString("Username", inputField.text);
         myUsername.text = inputField.text.ToUpper();
         usernamePage.SetActive(false);
+
+        LootLockerSDKManager.SetPlayerName(enteredName, resp =>
+        {
+            if (resp.success)
+                Debug.Log("Nombre guardado también en LootLocker");
+            else
+                Debug.LogError("Falló en LootLocker");
+        });
     }
 }

@@ -6,6 +6,26 @@ public class GlobalScoreUI : MonoBehaviour
 {
     [SerializeField] private TMP_Text scoreText;
 
+    private void Start()
+    {
+        Invoke(nameof(ShowLeaderboard), 1f);
+    }
+
+    private void ShowLeaderboard()
+    {
+        LeaderboardUI leaderboard = FindObjectOfType<LeaderboardUI>();
+
+        if (leaderboard != null)
+        {
+            leaderboard.gameObject.SetActive(true);
+            leaderboard.Refresh();
+        }
+        else
+        {
+            Debug.LogWarning("No se encontró el LeaderboardUI en el Lobby.");
+        }
+    }
+
     void Update()
     {
         if (GlobalGameManager.Instance == null) return;

@@ -9,6 +9,7 @@ public class GlobalGameManager : MonoBehaviourPunCallbacks
 
     private Dictionary<string, int> playerPoints = new Dictionary<string, int>();
 
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -20,6 +21,11 @@ public class GlobalGameManager : MonoBehaviourPunCallbacks
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
+        InitializePlayerPoints();
+    }
+
+    private void InitializePlayerPoints()
+    {
         foreach (var player in PhotonNetwork.PlayerList)
         {
             if (!playerPoints.ContainsKey(player.NickName))
@@ -66,7 +72,19 @@ public class GlobalGameManager : MonoBehaviourPunCallbacks
         if (LobbySpawner.Instance != null)
             LobbySpawner.Instance.ClearSpawnedPlayers();
 
-        PhotonNetwork.LoadLevel("Lobby");
+        StartCoroutine(LoadLobbySafely());
     }
 
+    private IEnumerator LoadLobbySafely()
+    {
+        yield return null;
+
+        foreach (var gm in FindObjectsOfType<GlobalGameManager>())
+        {
+            if (gm != Instance)
+                Destroy(gm.gameObject);
+        }
+
+        PhotonNetwork.LoadLevel("Lobby");
+    }
 }
