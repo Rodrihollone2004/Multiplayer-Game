@@ -60,6 +60,8 @@ MonoBehaviour:
   - RPC_WinWord
   - RPC_AddPoints
   - RPC_ReturnToLobby
+  - RPC_ClearInput
+  - RPC_UpdateInputDisplay
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -20,6 +20,7 @@ public class GlobalGameManager : MonoBehaviourPunCallbacks
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+        Debug.Log("GlobalGameManager inicializado correctamente en: " + gameObject.scene.name);
 
         InitializePlayerPoints();
     }
@@ -71,19 +72,6 @@ public class GlobalGameManager : MonoBehaviourPunCallbacks
     {
         if (LobbySpawner.Instance != null)
             LobbySpawner.Instance.ClearSpawnedPlayers();
-
-        StartCoroutine(LoadLobbySafely());
-    }
-
-    private IEnumerator LoadLobbySafely()
-    {
-        yield return null;
-
-        foreach (var gm in FindObjectsOfType<GlobalGameManager>())
-        {
-            if (gm != Instance)
-                Destroy(gm.gameObject);
-        }
 
         PhotonNetwork.LoadLevel("Lobby");
     }

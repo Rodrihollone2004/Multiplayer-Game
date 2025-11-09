@@ -6,28 +6,24 @@ public class PlayerTyping : MonoBehaviourPunCallbacks
 {
     private TMP_Text inputDisplay;
     private string currentInput = "";
+    private string lastSyncedInput = "";
     private StepMover stepMover;
     private bool canType = false;
+    private float syncInterval = 0.1f; // enviar RPC como maximo cada 0.1s
+    private float syncTimer = 0f;
 
     void Start()
     {
         stepMover = GetComponent<StepMover>();
 
-        int actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
+        int actorNumber = photonView.Owner.ActorNumber;
         string textName = $"PlayerInputText_{actorNumber}";
         GameObject go = GameObject.Find(textName);
 
         if (go != null)
             inputDisplay = go.GetComponent<TMP_Text>();
-        else
-            Debug.LogWarning($"⚠ No se encontró {textName} en la escena");
 
         canType = photonView.IsMine;
-    }
-
-    public void SetCanType(bool value)
-    {
-        canType = value;
     }
 
     void Update()
@@ -50,12 +46,47 @@ public class PlayerTyping : MonoBehaviourPunCallbacks
             }
         }
 
-        UpdateWordColors();
+        UpdateWordColors(currentInput);
+
+        syncTimer += Time.deltaTime;
+        if (syncTimer >= syncInterval && currentInput != lastSyncedInput)
+        {
+            photonView.RPC("RPC_UpdateInputDisplay", RpcTarget.Others, currentInput);
+            lastSyncedInput = currentInput;
+            syncTimer = 0f;
+        }
 
         if (currentInput.Equals(WordManager.Instance.currentWord, System.StringComparison.OrdinalIgnoreCase))
         {
             photonView.RPC("RPC_WinWord", RpcTarget.All, photonView.ViewID);
         }
+    }
+
+    [PunRPC]
+    void RPC_UpdateInputDisplay(string input)
+    {
+        UpdateWordColors(input);
+    }
+
+    void UpdateWordColors(string input)
+    {
+        if (inputDisplay == null || WordManager.Instance == null) return;
+
+        string targetWord = WordManager.Instance.currentWord;
+        string colored = "";
+
+        for (int i = 0; i < input.Length && i < targetWord.Length; i++)
+        {
+            char inputChar = input[i];
+            char targetChar = targetWord[i];
+
+            if (char.ToLower(inputChar) == char.ToLower(targetChar))
+                colored += $"<color=white>{inputChar}</color>";
+            else
+                colored += $"<color=red>{inputChar}</color>";
+        }
+
+        inputDisplay.text = colored;
     }
 
     [PunRPC]
@@ -71,34 +102,17 @@ public class PlayerTyping : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
             WordManager.Instance.PlayerCompleted(winnerView.Owner.NickName);
 
-        if (winnerView.IsMine)
+        foreach (var typing in FindObjectsOfType<PlayerTyping>())
         {
-            currentInput = "";
-            if (inputDisplay != null)
-                inputDisplay.text = "";
+            typing.ClearInputLocal();
         }
     }
 
-    void UpdateWordColors()
+    public void ClearInputLocal()
     {
-        if (WordManager.Instance == null || string.IsNullOrEmpty(WordManager.Instance.currentWord))
-            return;
-
-        string targetWord = WordManager.Instance.currentWord;
-        string colored = "";
-
-        for (int i = 0; i < currentInput.Length; i++)
-        {
-            char inputChar = currentInput[i];
-            char targetChar = targetWord[i];
-
-            if (char.ToLower(inputChar) == char.ToLower(targetChar))
-                colored += $"<color=yellow>{inputChar}</color>";
-            else
-                colored += $"<color=red>{inputChar}</color>";
-        }
-
+        currentInput = "";
+        lastSyncedInput = "";
         if (inputDisplay != null)
-            inputDisplay.text = colored;
+            inputDisplay.text = "";
     }
 }
