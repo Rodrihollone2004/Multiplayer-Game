@@ -30,14 +30,27 @@ public class GameManagerPalabras : MonoBehaviourPunCallbacks
         {
             GlobalGameManager.Instance.AddPoints(winnerName, 1);
 
-            LeaderboardService.SubmitScore(
-                GlobalGameManager.Instance.GetPlayerPoints()[winnerName],
-                "globalhighscore",
-                _ => Debug.Log($"Puntaje actualizado en leaderboard para {winnerName}")
-            );
+            int newScore = GlobalGameManager.Instance.GetPlayerPoints()[winnerName];
+
+            PhotonView targetPV = FindPhotonViewOwnedBy(winnerName);
+
+            if (targetPV != null)
+            {
+                targetPV.RPC("RPC_SubmitMyScore", targetPV.Owner, newScore);
+            }
 
             GlobalGameManager.Instance.ReturnToLobby(5f);
         }
 
+    }
+
+    private PhotonView FindPhotonViewOwnedBy(string playerName)
+    {
+        foreach (var pv in FindObjectsOfType<PhotonView>())
+        {
+            if (pv.Owner != null && pv.Owner.NickName == playerName)
+                return pv;
+        }
+        return null;
     }
 }

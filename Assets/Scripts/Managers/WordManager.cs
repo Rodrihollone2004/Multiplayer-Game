@@ -26,13 +26,6 @@ public class WordManager : MonoBehaviourPunCallbacks
             GenerateNewWord();
     }
 
-    [PunRPC]
-    void RPC_SetWord(string word)
-    {
-        currentWord = word;
-        currentWordText.text = word;
-    }
-
     public void GenerateNewWord()
     {
         if (usedWords.Count >= words.Length)
@@ -49,6 +42,13 @@ public class WordManager : MonoBehaviourPunCallbacks
 
         usedWords.Add(newWord);
         photonView.RPC("RPC_SetWord", RpcTarget.All, newWord);
+    }
+
+    [PunRPC]
+    void RPC_SetWord(string word)
+    {
+        currentWord = word;
+        currentWordText.text = word;
     }
 
     [PunRPC]
