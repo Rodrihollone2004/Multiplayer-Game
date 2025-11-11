@@ -63,6 +63,8 @@ MonoBehaviour:
   - RPC_ClearInput
   - RPC_UpdateInputDisplay
   - RPC_SubmitMyScore
+  - RPC_ListWords
+  - RPC_SetupWords
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
